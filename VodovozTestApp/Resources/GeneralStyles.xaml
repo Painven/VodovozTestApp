@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
-    <SolidColorBrush Color="#FFE9E9" Opacity="0.8" x:Key="MainPanelBackground"/>
+    <SolidColorBrush Color="#9DF9FF" Opacity="0.9" x:Key="MainPanelBackground"/>
     
     <Style TargetType="ListBox" x:Key="SectionListBoxStyle">
         <Setter Property="BorderBrush" Value="#2F499D"/>

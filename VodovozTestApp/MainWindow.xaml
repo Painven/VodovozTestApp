@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:VodovozTestApp.ViewModels"
+        xmlns:v="clr-namespace:VodovozTestApp.Views"
         xmlns:beh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
@@ -16,9 +17,9 @@
         </beh:EventTrigger>
     </beh:Interaction.Triggers>
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Assets/water-texture-2.jpg" Stretch="UniformToFill" />
-        </Grid.Background>
+        <!--<Grid.Background>
+            <ImageBrush ImageSource="/Assets/water-drop.png" TileMode="Tile" Viewport="0,0,64,64" ViewportUnits="Absolute"/>
+        </Grid.Background>-->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -27,16 +28,16 @@
             <!-- Главное меню-->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{StaticResource MainPanelBackground}">
                 <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
-                    <i:PackIconFontAwesome Kind="AddressBookRegular" Style="{StaticResource SmallIconSize}"/>
-                </Button>
-                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
-                    <i:PackIconFontAwesome Kind="CodeBranchSolid" Style="{StaticResource SmallIconSize}"/>
+                    <i:PackIconFontAwesome Kind="WaterSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
                 <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
                     <i:PackIconFontAwesome Kind="AirFreshenerSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
                 <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
-                    <i:PackIconFontAwesome Kind="AlignJustifySolid" Style="{StaticResource SmallIconSize}"/>
+                    <i:PackIconFontAwesome Kind="HandHoldingWaterSolid" Style="{StaticResource SmallIconSize}"/>
+                </Button>
+                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                    <i:PackIconFontAwesome Kind="CogsSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
             </StackPanel>
 
@@ -49,27 +50,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Раздел подразделений -->
-                <Grid Grid.Column="0" Margin="2,0,2,2" Height="636" VerticalAlignment="Bottom">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <i:PackIconFontAwesome Kind="UsersSolid" Style="{StaticResource SectionIconStyle}" />
-                        <TextBlock Text="Подразделения" 
-                                   Style="{StaticResource SectionTextBoxStyle}" />
-                        <Button Command="{Binding AddNewDepartmentCommand}" 
-                                Style="{StaticResource SectionButtonStyle}">
-                            <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
-                        </Button>
-                    </StackPanel>
-
-                    <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
-
-                    </ListBox>
-
-                </Grid>
+                <v:DepartmentsListView Grid.Row="0" DataContext="{Binding Departments}" />
 
                 <!-- Раздел сотрудников -->
                 <Grid Grid.Column="1" Margin="2">
@@ -83,7 +64,7 @@
                         <TextBlock Text="Сотрудники" 
                                    Style="{StaticResource SectionTextBoxStyle}" 
                                    VerticalAlignment="Center"/>
-                        <Button Command="{Binding AddNewDepartmentCommand}" 
+                        <Button Command="{Binding AddNewEmployeeCommand}" 
                                 Style="{StaticResource SectionButtonStyle}">
                             <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
                         </Button>
@@ -108,7 +89,7 @@
                                    Style="{StaticResource SectionTextBoxStyle}" 
                                    VerticalAlignment="Center"
                                    />
-                        <Button Command="{Binding AddNewDepartmentCommand}" 
+                        <Button Command="{Binding AddNewOrderCommand}" 
                                 Style="{StaticResource SectionButtonStyle}">
                             <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
                         </Button>

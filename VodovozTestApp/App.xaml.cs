@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Windows;
+using VodovozTestApp.DataAccess;
+using VodovozTestApp.Services;
 using VodovozTestApp.ViewModels;
 using VodovozTestApp.Views;
 
@@ -18,6 +21,9 @@ public partial class App : Application
         host = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
+                services.AddAutoMapper(typeof(App).Assembly);
+                
+                services.ConfigureDatabaseRepositories();
                 services.ConfigureAppWindows();
             })
             .Build();
@@ -41,10 +47,28 @@ public partial class App : Application
 
 public static class ConfigureServicesExtensions
 {
+    public static void ConfigureDatabaseRepositories(this IServiceCollection services)
+    {
+        services.AddTransient<IDepartmentRepository, DepartmentRepository>();
+        services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+        services.AddTransient<IOrderRepository, OrderRepository>();
+    }
+
     public static void ConfigureAppWindows(this IServiceCollection services)
     {
+        services.AddSingleton<IWindowService, WindowService>();
+
+        services.AddSingleton<DepartmentsListViewModel>();
+        services.AddSingleton<EmployeesListViewModel>();
+        services.AddSingleton<OrdersListViewModel>();
+
+        services.AddTransient<AddDepartmentWindow>();
         services.AddSingleton<AddDepartmentWindowViewModel>();
+
+        services.AddTransient<AddEmployeeWindow>();
         services.AddSingleton<AddEmployeeWindowViewModel>();
+
+        services.AddTransient<AddOrderWindow>();
         services.AddSingleton<AddOrderWindowViewModel>();
 
         services.AddSingleton<MainWindow>();
