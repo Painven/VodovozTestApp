@@ -49,20 +49,21 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Раздел подразделений -->
-                <Grid Grid.Column="0" Margin="2">
+                <Grid Grid.Column="0" Margin="2,0,2,2" Height="636" VerticalAlignment="Bottom">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <DockPanel Grid.Row="0" Margin="2">
-                        <Button DockPanel.Dock="Right" 
-                            Command="{Binding AddNewDepartmentCommand}" 
-                            Style="{StaticResource SectionButtonStyle}">
+                    <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <i:PackIconFontAwesome Kind="UsersSolid" Style="{StaticResource SectionIconStyle}" />
+                        <TextBlock Text="Подразделения" 
+                                   Style="{StaticResource SectionTextBoxStyle}" />
+                        <Button Command="{Binding AddNewDepartmentCommand}" 
+                                Style="{StaticResource SectionButtonStyle}">
                             <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
                         </Button>
-                        <TextBlock Text="Подразделения" Style="{StaticResource SectionTextBoxStyle}" />
-                    </DockPanel>
+                    </StackPanel>
 
                     <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
 
@@ -77,14 +78,16 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <DockPanel Grid.Row="0" Margin="2">
-                        <Button DockPanel.Dock="Right" 
-                            Command="{Binding AddNewEmployeeCommand}" 
-                            Style="{StaticResource SectionButtonStyle}">
+                    <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <i:PackIconFontAwesome Kind="UserSolid" Style="{StaticResource SectionIconStyle}" />
+                        <TextBlock Text="Сотрудники" 
+                                   Style="{StaticResource SectionTextBoxStyle}" 
+                                   VerticalAlignment="Center"/>
+                        <Button Command="{Binding AddNewDepartmentCommand}" 
+                                Style="{StaticResource SectionButtonStyle}">
                             <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
                         </Button>
-                        <TextBlock Text="Сотрудники" Style="{StaticResource SectionTextBoxStyle}" />
-                    </DockPanel>
+                    </StackPanel>
 
                     <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
 
@@ -99,14 +102,17 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <DockPanel Grid.Row="0" Margin="2">
-                        <Button DockPanel.Dock="Right" 
-                            Command="{Binding AddNewOrderCommand}" 
-                            Style="{StaticResource SectionButtonStyle}">
+                    <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <i:PackIconFontAwesome Kind="BoxSolid" Style="{StaticResource SectionIconStyle}" />
+                        <TextBlock Text="Заказы" 
+                                   Style="{StaticResource SectionTextBoxStyle}" 
+                                   VerticalAlignment="Center"
+                                   />
+                        <Button Command="{Binding AddNewDepartmentCommand}" 
+                                Style="{StaticResource SectionButtonStyle}">
                             <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
                         </Button>
-                        <TextBlock Text="Заказы" Style="{StaticResource SectionTextBoxStyle}" />
-                    </DockPanel>
+                    </StackPanel>
 
                     <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
 

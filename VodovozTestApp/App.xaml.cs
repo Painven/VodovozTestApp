@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Windows;
 using VodovozTestApp.ViewModels;
+using VodovozTestApp.Views;
 
 namespace VodovozTestApp;
 /// <summary>
@@ -17,8 +18,7 @@ public partial class App : Application
         host = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
-                services.AddSingleton<MainWindow>();
-                services.AddSingleton<MainWindowViewModel>();
+                services.ConfigureAppWindows();
             })
             .Build();
     }
@@ -36,5 +36,18 @@ public partial class App : Application
     {
         await host.StopAsync(TimeSpan.FromSeconds(3));
         host?.Dispose();
+    }
+}
+
+public static class ConfigureServicesExtensions
+{
+    public static void ConfigureAppWindows(this IServiceCollection services)
+    {
+        services.AddSingleton<AddDepartmentWindowViewModel>();
+        services.AddSingleton<AddEmployeeWindowViewModel>();
+        services.AddSingleton<AddOrderWindowViewModel>();
+
+        services.AddSingleton<MainWindow>();
+        services.AddSingleton<MainWindowViewModel>();
     }
 }

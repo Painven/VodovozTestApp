@@ -13,6 +13,7 @@
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="Navy"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <Style TargetType="Button" x:Key="ToolButtonStyle">
@@ -53,6 +54,7 @@
     <Style TargetType="Button" x:Key="SectionButtonStyle">
         <Setter Property="Foreground" Value="#D1CB49"/>
         <Setter Property="Padding" Value="5"/>
+        <Setter Property="Margin" Value="4 0"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
