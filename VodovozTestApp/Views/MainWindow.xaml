@@ -1,0 +1,120 @@
+﻿<Window x:Class="VodovozTestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:VodovozTestApp.ViewModels"
+        xmlns:beh="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
+        Title="{Binding Title}" Height="700" Width="1200">
+    <beh:Interaction.Triggers>
+        <beh:EventTrigger EventName="Loaded">
+            <beh:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </beh:EventTrigger>
+    </beh:Interaction.Triggers>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/water-texture-2.jpg" Stretch="UniformToFill" />
+        </Grid.Background>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- Главное меню-->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{StaticResource MainPanelBackground}">
+                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                    <i:PackIconFontAwesome Kind="AddressBookRegular" Style="{StaticResource SmallIconSize}"/>
+                </Button>
+                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                    <i:PackIconFontAwesome Kind="CodeBranchSolid" Style="{StaticResource SmallIconSize}"/>
+                </Button>
+                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                    <i:PackIconFontAwesome Kind="AirFreshenerSolid" Style="{StaticResource SmallIconSize}"/>
+                </Button>
+                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                    <i:PackIconFontAwesome Kind="AlignJustifySolid" Style="{StaticResource SmallIconSize}"/>
+                </Button>
+            </StackPanel>
+
+            <!-- Основные секции -->
+            <Grid Grid.Row="1" Background="{StaticResource MainPanelBackground}" Margin="0 4 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Раздел подразделений -->
+                <Grid Grid.Column="0" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Grid.Row="0" Margin="2">
+                        <Button DockPanel.Dock="Right" 
+                            Command="{Binding AddNewDepartmentCommand}" 
+                            Style="{StaticResource SectionButtonStyle}">
+                            <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
+                        </Button>
+                        <TextBlock Text="Подразделения" Style="{StaticResource SectionTextBoxStyle}" />
+                    </DockPanel>
+
+                    <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
+
+                    </ListBox>
+
+                </Grid>
+
+                <!-- Раздел сотрудников -->
+                <Grid Grid.Column="1" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Grid.Row="0" Margin="2">
+                        <Button DockPanel.Dock="Right" 
+                            Command="{Binding AddNewEmployeeCommand}" 
+                            Style="{StaticResource SectionButtonStyle}">
+                            <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
+                        </Button>
+                        <TextBlock Text="Сотрудники" Style="{StaticResource SectionTextBoxStyle}" />
+                    </DockPanel>
+
+                    <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
+
+                    </ListBox>
+
+                </Grid>
+
+                <!-- Раздел заказов -->
+                <Grid Grid.Column="2" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Grid.Row="0" Margin="2">
+                        <Button DockPanel.Dock="Right" 
+                            Command="{Binding AddNewOrderCommand}" 
+                            Style="{StaticResource SectionButtonStyle}">
+                            <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
+                        </Button>
+                        <TextBlock Text="Заказы" Style="{StaticResource SectionTextBoxStyle}" />
+                    </DockPanel>
+
+                    <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
+
+                    </ListBox>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+    
+</Window>
