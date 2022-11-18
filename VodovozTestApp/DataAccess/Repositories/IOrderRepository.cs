@@ -11,8 +11,19 @@ public interface IOrderRepository
 
 public class OrderRepository : IOrderRepository
 {
-    public Task<List<Order>> GetAll()
+    private readonly IDapperDatabaseAccess database;
+
+    public OrderRepository(IDapperDatabaseAccess database)
     {
-        throw new System.NotImplementedException();
+        this.database = database;
+    }
+
+    public async Task<List<Order>> GetAll()
+    {
+        string sql = "SELECT * FROM employee";
+
+        var orders = await database.GetList<Order>(sql);
+
+        return orders;
     }
 }

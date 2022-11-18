@@ -11,14 +11,19 @@ public interface IDepartmentRepository
 
 public class DepartmentRepository : IDepartmentRepository
 {
-    public Task<List<Department>> GetAll()
+    private readonly IDapperDatabaseAccess database;
+
+    public DepartmentRepository(IDapperDatabaseAccess database)
     {
-        return Task.FromResult(new List<Department>()
-        {
-            new Department() { Name = "Тестовый отдел 1"},
-            new Department() { Name = "Тестовый отдел 2"},
-            new Department() { Name = "Тестовый отдел 3"},
-            new Department() { Name = "Тестовый отдел 4"},
-        });
+        this.database = database;
+    }
+
+    public async Task<List<Department>> GetAll()
+    {
+        string sql = "SELECT * FROM department";
+
+        var departments = await database.GetList<Department>(sql);
+
+        return departments;
     }
 }

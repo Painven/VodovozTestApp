@@ -8,25 +8,26 @@
         xmlns:beh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
+        MinWidth="700"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
+        Background="{StaticResource MainWindowBackgroundTexture}"
         Title="{Binding Title}" Height="700" Width="1200">
     <beh:Interaction.Triggers>
         <beh:EventTrigger EventName="Loaded">
             <beh:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </beh:EventTrigger>
     </beh:Interaction.Triggers>
-    <Grid>
-        <!--<Grid.Background>
-            <ImageBrush ImageSource="/Assets/water-drop.png" TileMode="Tile" Viewport="0,0,64,64" ViewportUnits="Absolute"/>
-        </Grid.Background>-->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <!-- Главное меню-->
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{StaticResource MainPanelBackground}">
+    
+    <Grid Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Главное меню-->
+        <Border Grid.Row="0"  Style="{StaticResource MainSectionBorder}">
+            <StackPanel Orientation="Horizontal">
                 <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
                     <i:PackIconFontAwesome Kind="WaterSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
@@ -40,68 +41,26 @@
                     <i:PackIconFontAwesome Kind="CogsSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
             </StackPanel>
+        </Border>
 
-            <!-- Основные секции -->
-            <Grid Grid.Row="1" Background="{StaticResource MainPanelBackground}" Margin="0 4 0 0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <!-- Основные секции -->
+        <Grid  Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <!-- Раздел подразделений -->
-                <v:DepartmentsListView Grid.Row="0" DataContext="{Binding Departments}" />
+            <!-- Раздел подразделений -->
+            <v:DepartmentsListView Grid.Column="0" DataContext="{Binding DepartmentsData}" />
 
-                <!-- Раздел сотрудников -->
-                <Grid Grid.Column="1" Margin="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+            <!-- Раздел сотрудников -->
+            <v:EmployeesListView Grid.Column="1" DataContext="{Binding EmployeesData}" />
 
-                    <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <i:PackIconFontAwesome Kind="UserSolid" Style="{StaticResource SectionIconStyle}" />
-                        <TextBlock Text="Сотрудники" 
-                                   Style="{StaticResource SectionTextBoxStyle}" 
-                                   VerticalAlignment="Center"/>
-                        <Button Command="{Binding AddNewEmployeeCommand}" 
-                                Style="{StaticResource SectionButtonStyle}">
-                            <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
-                        </Button>
-                    </StackPanel>
-
-                    <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
-
-                    </ListBox>
-
-                </Grid>
-
-                <!-- Раздел заказов -->
-                <Grid Grid.Column="2" Margin="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <i:PackIconFontAwesome Kind="BoxSolid" Style="{StaticResource SectionIconStyle}" />
-                        <TextBlock Text="Заказы" 
-                                   Style="{StaticResource SectionTextBoxStyle}" 
-                                   VerticalAlignment="Center"
-                                   />
-                        <Button Command="{Binding AddNewOrderCommand}" 
-                                Style="{StaticResource SectionButtonStyle}">
-                            <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
-                        </Button>
-                    </StackPanel>
-
-                    <ListBox Grid.Row="1" Style="{StaticResource SectionListBoxStyle}">
-
-                    </ListBox>
-
-                </Grid>
-            </Grid>
+            <!-- Раздел заказов -->
+            <v:OrdersListView Grid.Column="2" DataContext="{Binding OrdersData}" />
         </Grid>
+
     </Grid>
-    
+
 </Window>

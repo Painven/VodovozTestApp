@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VodovozTestApp.Views.DepartmentsListView"
+﻿<UserControl x:Class="VodovozTestApp.Views.OrdersListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,8 @@
              xmlns:vm="clr-namespace:VodovozTestApp.ViewModels" 
              xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:beh="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:ss="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl" 
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=vm:DepartmentsListViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=vm:OrdersListViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Border Style="{StaticResource MainSectionBorder}">
@@ -19,38 +18,24 @@
         </beh:Interaction.Triggers>
         
         <Grid >
-
-        <Grid.RowDefinitions>
+            <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-            <ss:LoadingSpinner IsLoading="True"
-                               Visibility="{Binding IsLoadingInProgress, Converter={StaticResource BoolToVisibilityConverter}}"
-                               Height="100"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Grid.RowSpan="2"
-                               Width="100" 
-                               Thickness="3"
-                               Color="Fuchsia"
-                               Panel.ZIndex="99"/>
-
             <Border Grid.Row="0" Style="{StaticResource SectionHeaderSeparator}">
                 <StackPanel Style="{StaticResource SectionStackPanelStyle}">
-                    <i:PackIconFontAwesome Kind="UsersSolid" Style="{StaticResource SectionIconStyle}" />
-                    <TextBlock Text="Подразделения" 
-                               Style="{StaticResource SectionTextBoxStyle}" />
-                    <Button Command="{Binding AddNewDepartmentCommand}" 
+                    <i:PackIconFontAwesome Kind="BoxesSolid" Style="{StaticResource SectionIconStyle}" />
+                    <TextBlock Text="Заказы" Style="{StaticResource SectionTextBoxStyle}" />
+                    <Button Command="{Binding AddNewOrderCommand}" 
                             Style="{StaticResource SectionButtonStyle}">
                         <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
                     </Button>
-                </StackPanel>
-            </Border>
-
+            </StackPanel>
+        </Border>
 
             <ItemsControl Grid.Row="1" 
-                          ItemsSource="{Binding Departments}"
+                          ItemsSource="{Binding Orders}"
                           Style="{StaticResource SectionItemsControlStyle}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -59,22 +44,18 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"></TextBlock>
-                            <Button Grid.Column="1" 
-                                    Command="{Binding ShowDeleteDialogCommand}" 
-                                    Style="{StaticResource InlineActionButtonStyle}">
-                                <i:PackIconFontAwesome Kind="TrashSolid" Style="{StaticResource ExtraSmallIconSize}" />
-                            </Button>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding OrderID, StringFormat='{}Заказ №{0}'}" 
+                                           Foreground="Navy"
+                                           FontWeight="Bold"
+                                           Margin="0 0 8 0"></TextBlock>
+                                <TextBlock Text="{Binding ProductName}" Foreground="#374982"></TextBlock>
+                            </StackPanel>
+
                             <Button Grid.Column="2" 
-                                    Command="{Binding ShowEditWindowCommand}" 
-                                    Style="{StaticResource InlineActionButtonStyle}">
-                                <i:PackIconFontAwesome Kind="PenSolid" Style="{StaticResource ExtraSmallIconSize}" />
-                            </Button>
-                            <Button Grid.Column="3" 
-                                    Command="{Binding ShowDetailsWindowCommand}" 
+                                    Command="{Binding DeleteCommand}" 
                                     Style="{StaticResource InlineActionButtonStyle}">
                                 <i:PackIconFontAwesome Kind="EyeSolid" Style="{StaticResource ExtraSmallIconSize}" />
                             </Button>
@@ -83,6 +64,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-    </Grid>
+        </Grid>
     </Border>
 </UserControl>

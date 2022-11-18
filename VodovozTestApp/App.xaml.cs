@@ -19,10 +19,13 @@ public partial class App : Application
     public App()
     {
         host = Host.CreateDefaultBuilder()
-            .ConfigureServices(services =>
+            .ConfigureServices((context, services) =>
             {
                 services.AddAutoMapper(typeof(App).Assembly);
-                
+
+                string connectionString = context.Configuration["ConnectionStrings:default"];
+                services.AddTransient<IDapperDatabaseAccess>(x => new MySqlDapperDatabaseAccess(connectionString));
+
                 services.ConfigureDatabaseRepositories();
                 services.ConfigureAppWindows();
             })
@@ -48,7 +51,7 @@ public partial class App : Application
 public static class ConfigureServicesExtensions
 {
     public static void ConfigureDatabaseRepositories(this IServiceCollection services)
-    {
+    {       
         services.AddTransient<IDepartmentRepository, DepartmentRepository>();
         services.AddTransient<IEmployeeRepository, EmployeeRepository>();
         services.AddTransient<IOrderRepository, OrderRepository>();

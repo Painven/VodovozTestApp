@@ -3,10 +3,50 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:VodovozTestApp.Views"
+        SizeToContent="Width"
         mc:Ignorable="d"
-        Title="AddDepartmentWindow" Height="450" Width="800">
-    <Grid>
-        <TextBlock Style="{StaticResource SectionTextBoxStyle}">Добавление нового отдела</TextBlock>
-    </Grid>
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource MainWindowBackgroundTexture}"
+        Title="Добавление" Height="220" Width="500">
+    <Border Style="{StaticResource MainSectionBorder}">
+        <Grid Margin="20 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Добавление нового отдела" 
+                   HorizontalAlignment="Center"
+                   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                   Style="{StaticResource SectionTextBoxStyle}" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Название " Style="{StaticResource AddFormTextBlockStyle}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NewDepartmentName}" Style="{StaticResource AddFormTextBoxStyle}"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Руководитель" Style="{StaticResource AddFormTextBlockStyle}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding NewDepartmentName}" Style="{StaticResource AddFormTextBoxStyle}"/>
+
+            <Button Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource SaveButtonStyle}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <i:PackIconFontAwesome Kind="CheckSolid" Style="{StaticResource LargeIconSize}" />
+                    <TextBlock Text="Добавить отдел" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Border>
+    
 </Window>

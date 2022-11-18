@@ -5,8 +5,8 @@ namespace VodovozTestApp.DataAccess;
 public class Department
 {
     [Key]
-    public int DepartmentID { get; set; }    
-    public int? LeaderID { get; set; }
+    public int department_id { get; set; }    
+    public int? lead_id { get; set; }
     [Required]
-    public string Name { get; set; }
+    public string name { get; set; }
 }

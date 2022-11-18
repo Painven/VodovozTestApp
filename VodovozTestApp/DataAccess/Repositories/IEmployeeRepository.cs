@@ -11,8 +11,19 @@ public interface IEmployeeRepository
 
 public class EmployeeRepository : IEmployeeRepository
 {
-    public Task<List<Employee>> GetAll()
+    private readonly IDapperDatabaseAccess database;
+
+    public EmployeeRepository(IDapperDatabaseAccess database)
     {
-        throw new System.NotImplementedException();
+        this.database = database;
+    }
+
+    public async Task<List<Employee>> GetAll()
+    {
+        string sql = "SELECT * FROM employee";
+
+        var employees = await database.GetList<Employee>(sql);
+
+        return employees;
     }
 }
