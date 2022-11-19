@@ -60,19 +60,20 @@ public static class ConfigureServicesExtensions
     public static void ConfigureAppWindows(this IServiceCollection services)
     {
         services.AddSingleton<IWindowService, WindowService>();
+        services.AddSingleton<IDialogService, MessageBoxDialogService>();
 
         services.AddSingleton<DepartmentsListViewModel>();
         services.AddSingleton<EmployeesListViewModel>();
         services.AddSingleton<OrdersListViewModel>();
 
         services.AddTransient<AddDepartmentWindow>();
-        services.AddSingleton<AddDepartmentWindowViewModel>();
+        services.AddTransient<AddDepartmentWindowViewModel>();
 
         services.AddTransient<AddEmployeeWindow>();
-        services.AddSingleton<AddEmployeeWindowViewModel>();
+        services.AddTransient<AddEmployeeWindowViewModel>();
 
         services.AddTransient<AddOrderWindow>();
-        services.AddSingleton<AddOrderWindowViewModel>();
+        services.AddTransient<AddOrderWindowViewModel>();
 
         services.AddSingleton<MainWindow>();
         services.AddSingleton<MainWindowViewModel>();

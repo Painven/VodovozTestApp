@@ -134,8 +134,7 @@
                             <Setter TargetName="buttonBorder" Property="Background" Value="#EC8430" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.75" />
-                            <Setter Property="BorderBrush" Value="Transparent" TargetName="buttonBorder"/>
+                            <Setter TargetName="buttonBorder" Property="Opacity" Value="0.75" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

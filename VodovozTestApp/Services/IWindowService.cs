@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
+using VodovozTestApp.Models;
 using VodovozTestApp.ViewModels;
 using VodovozTestApp.Views;
 
@@ -8,8 +9,8 @@ namespace VodovozTestApp.Services;
 
 public interface IWindowService 
 {
-    void ShowAddDepartmentWindow();
-    void ShowAddEmployeeWindow();
+    void ShowAddDepartmentWindow(DepartmentModel editDepartment = null);
+    void ShowAddEmployeeWindow(EmployeeModel editEmployee = null);
     void ShowAddOrderWindow();
 }
 
@@ -22,16 +23,26 @@ public class WindowService : IWindowService
         this.host = host;
     }
 
-    public void ShowAddDepartmentWindow()
+    public void ShowAddDepartmentWindow(DepartmentModel editDepartment = null)
     {
         var window = host.Services.GetRequiredService<AddDepartmentWindow>();
-        window.DataContext = host.Services.GetRequiredService<AddDepartmentWindowViewModel>();
+        var viewModel = host.Services.GetRequiredService<AddDepartmentWindowViewModel>();
+        if(editDepartment != null)
+        {
+            viewModel.ContextDepartment = editDepartment;
+        }
+        window.DataContext = viewModel;
         window.ShowDialog();
     }
-    public void ShowAddEmployeeWindow()
+    public void ShowAddEmployeeWindow(EmployeeModel editEmployee = null)
     {
         var window = host.Services.GetRequiredService<AddEmployeeWindow>();
-        window.DataContext = host.Services.GetRequiredService<AddEmployeeWindowViewModel>();
+        var viewModel = host.Services.GetRequiredService<AddEmployeeWindowViewModel>();
+        if(editEmployee != null)
+        {
+            viewModel.ContextEmployee = editEmployee;
+        }
+        window.DataContext = viewModel;
         window.ShowDialog();
     }
     public void ShowAddOrderWindow()

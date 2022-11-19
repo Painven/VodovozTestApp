@@ -18,4 +18,6 @@ public class Employee
     public string? middle_name { get; set; }
     public DateTime? date_of_birth { get; set; }
     public Sex sex { get; set; }
+
+    public Department Department { get; set; }
 }

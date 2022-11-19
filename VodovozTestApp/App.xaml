@@ -6,6 +6,7 @@
         
         <ResourceDictionary>
             <c:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <c:StringEqualsConverter x:Key="StringEqualsConverter" />
             
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Brushes.xaml"></ResourceDictionary>

@@ -20,7 +20,7 @@ public class MySqlDapperDatabaseAccess : IDapperDatabaseAccess
     {
         using IDbConnection connection = new MySqlConnection(connectionString);
 
-        connection.Open();
+        await Task.Run(() => connection.Open());
 
         await connection.ExecuteAsync(sql, parameters);
     }
@@ -29,7 +29,7 @@ public class MySqlDapperDatabaseAccess : IDapperDatabaseAccess
     {
         using IDbConnection connection = new MySqlConnection(connectionString);
 
-        connection.Open();
+        await Task.Run(() => connection.Open());
 
         var list = await connection.QueryAsync<T>(sql, parameters);
 
@@ -40,10 +40,19 @@ public class MySqlDapperDatabaseAccess : IDapperDatabaseAccess
     {
         using IDbConnection connection = new MySqlConnection(connectionString);
 
-        connection.Open();
+        await Task.Run(() => connection.Open());
 
         var item = await connection.QuerySingleOrDefaultAsync<T>(sql, parameters);
 
         return item;
+    }
+
+    public async Task<IDbConnection> GetConnection()
+    {
+        using IDbConnection connection = new MySqlConnection(connectionString);
+
+        await Task.Run(() => connection.Open());
+
+        return connection;
     }
 }

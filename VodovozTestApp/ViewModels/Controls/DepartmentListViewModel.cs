@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,6 +17,7 @@ public class DepartmentsListViewModel : ViewModelBase
     private readonly IDepartmentRepository departmentRepository;
     private readonly IMapper mapper;
     private readonly IWindowService windowService;
+    private readonly IDialogService dialogService;
 
     public ICommand LoadedCommand { get; }
     public ICommand AddNewDepartmentCommand { get; }
@@ -43,11 +46,13 @@ public class DepartmentsListViewModel : ViewModelBase
     
     public DepartmentsListViewModel(IDepartmentRepository departmentRepository, 
         IMapper mapper, 
-        IWindowService windowService) : this()
+        IWindowService windowService,
+        IDialogService dialogService) : this()
     {        
         this.departmentRepository = departmentRepository;
         this.mapper = mapper;
         this.windowService = windowService;
+        this.dialogService = dialogService;
     }
 
     private async Task LoadDepartments(object obj)
@@ -55,11 +60,19 @@ public class DepartmentsListViewModel : ViewModelBase
         Departments.Clear();
         IsLoadingInProgress = true;
 
-        foreach(var d in await departmentRepository.GetAll())
+        var departments = mapper.Map<IEnumerable<DepartmentModel>>(await departmentRepository.GetAll());
+
+        foreach(var department in departments)
         {
-            var department = mapper.Map<DepartmentModel>(d);
-            department.OnDeleteClicked += (e) => System.Windows.MessageBox.Show($"OnDeleteClicked {e.Name}");
-            department.OnEditClicked += (e) => System.Windows.MessageBox.Show($"OnEditClicked {e.Name}");
+            department.OnDeleteClicked += async (e) =>
+            {
+                if(dialogService.ShowConfirmDialog($"Подтвердите удаление '{e.Name}'"))
+                {
+                    Departments.Remove(e);
+                    await departmentRepository.Delete(e.DepartmentID);                   
+                }
+            };
+            department.OnEditClicked += (e) => windowService.ShowAddDepartmentWindow(e);
             department.OnShowDetailsClicked += (e) => System.Windows.MessageBox.Show($"OnShowDetailsClicked {e.Name}");
             Departments.Add(department);
         }
