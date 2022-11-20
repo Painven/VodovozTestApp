@@ -42,6 +42,7 @@
                     <TextBlock Text="Подразделения" 
                                Style="{StaticResource SectionTextBoxStyle}" />
                     <Button Command="{Binding AddNewDepartmentCommand}" 
+                            ToolTip="Добавить новый отдел"
                             Style="{StaticResource SectionButtonStyle}">
                         <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
                     </Button>

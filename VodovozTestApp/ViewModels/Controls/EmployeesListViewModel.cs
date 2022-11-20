@@ -21,6 +21,13 @@ public class EmployeesListViewModel : ViewModelBase
     private readonly IWindowService windowService;
     private readonly IDialogService dialogService;
 
+    bool isLoadingInProgress;
+    public bool IsLoadingInProgress
+    {
+        get => isLoadingInProgress;
+        set => Set(ref isLoadingInProgress, value);
+    }
+
     public ICommand LoadedCommand { get; }
     public ICommand AddNewEmployeeCommand { get; }
 
@@ -63,6 +70,7 @@ public class EmployeesListViewModel : ViewModelBase
     private async Task LoadEmployees()
     {
         Employees.Clear();
+        IsLoadingInProgress = true;
 
         var employees = mapper.Map<List<EmployeeModel>>(await employeeRepository.GetAll());
         
@@ -80,6 +88,8 @@ public class EmployeesListViewModel : ViewModelBase
             employee.OnShowDetailsClicked += (e) => windowService.ShowEmployeeDetailsWindow(e);
             Employees.Add(employee);
         }
+
+        IsLoadingInProgress = false;
     }
 }
 

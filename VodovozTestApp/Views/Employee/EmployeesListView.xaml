@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:VodovozTestApp.ViewModels" 
              xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:beh="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:ss="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl" 
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:EmployeesListViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -16,14 +17,23 @@
                 <beh:InvokeCommandAction Command="{Binding LoadedCommand}" />
             </beh:EventTrigger>
         </beh:Interaction.Triggers>
-        
-        <Grid >
 
-            
-        <Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+            <ss:LoadingSpinner IsLoading="True"
+                               Visibility="{Binding IsLoadingInProgress, Converter={StaticResource BoolToVisibilityConverter}}"
+                               Height="100"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Grid.RowSpan="2"
+                               Width="100" 
+                               Thickness="3"
+                               Color="Fuchsia"
+                               Panel.ZIndex="99"/>
 
             <Border Grid.Row="0" Style="{StaticResource SectionHeaderSeparator}">
                 <StackPanel Style="{StaticResource SectionStackPanelStyle}">
@@ -31,6 +41,7 @@
                     <TextBlock Text="{Binding Employees.Count, StringFormat={}Сотрудники [{0}]}"
                                Style="{StaticResource SectionTextBoxStyle}" />
                     <Button Command="{Binding AddNewEmployeeCommand}" 
+                            ToolTip="Добавить нового сотрудника"
                             Style="{StaticResource SectionButtonStyle}">
                         <i:PackIconFontAwesome Kind="PlusSolid" Style="{StaticResource ExtraSmallIconSize}" />
                     </Button>

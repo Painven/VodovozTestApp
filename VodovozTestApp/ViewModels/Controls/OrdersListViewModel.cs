@@ -17,6 +17,14 @@ public class OrdersListViewModel : ViewModelBase
     private readonly IMapper mapper;
     private readonly IWindowService windowService;
 
+    bool isLoadingInProgress;
+    public bool IsLoadingInProgress
+    {
+        get => isLoadingInProgress;
+        set => Set(ref isLoadingInProgress, value);
+    }
+
+
     public ICommand LoadedCommand { get; }
     public ICommand AddNewOrderCommand { get; }
    
@@ -47,6 +55,7 @@ public class OrdersListViewModel : ViewModelBase
     private async Task LoadOrders()
     {
         Orders.Clear();
+        IsLoadingInProgress = true;
 
         var orders = mapper.Map<List<OrderModel>>(await orderRepository.GetAll());
 
@@ -55,6 +64,8 @@ public class OrdersListViewModel : ViewModelBase
             order.OnShowDetailsClicked += (e) => windowService.ShowAddOrderWindow(e);
             Orders.Add(order);
         }
+
+        IsLoadingInProgress = false;
     }
 
     private async Task AddOrder()
