@@ -9,9 +9,11 @@ namespace VodovozTestApp.Services;
 
 public interface IWindowService 
 {
-    void ShowAddDepartmentWindow(DepartmentModel editDepartment = null);
-    void ShowAddEmployeeWindow(EmployeeModel editEmployee = null);
-    void ShowAddOrderWindow();
+    bool ShowAddDepartmentWindow(DepartmentModel editDepartment = null);
+    bool ShowAddEmployeeWindow(EmployeeModel editEmployee = null);
+    bool ShowAddOrderWindow(OrderModel editOrder = null);
+    void ShowEmployeeDetailsWindow(EmployeeModel employee);
+    void ShowDepartmentDetailsWindow(DepartmentModel department);
 }
 
 public class WindowService : IWindowService
@@ -23,7 +25,7 @@ public class WindowService : IWindowService
         this.host = host;
     }
 
-    public void ShowAddDepartmentWindow(DepartmentModel editDepartment = null)
+    public bool ShowAddDepartmentWindow(DepartmentModel editDepartment = null)
     {
         var window = host.Services.GetRequiredService<AddDepartmentWindow>();
         var viewModel = host.Services.GetRequiredService<AddDepartmentWindowViewModel>();
@@ -32,9 +34,12 @@ public class WindowService : IWindowService
             viewModel.ContextDepartment = editDepartment;
         }
         window.DataContext = viewModel;
-        window.ShowDialog();
+        bool dialogResult = (bool)window.ShowDialog();
+
+        return dialogResult;
     }
-    public void ShowAddEmployeeWindow(EmployeeModel editEmployee = null)
+    
+    public bool ShowAddEmployeeWindow(EmployeeModel editEmployee = null)
     {
         var window = host.Services.GetRequiredService<AddEmployeeWindow>();
         var viewModel = host.Services.GetRequiredService<AddEmployeeWindowViewModel>();
@@ -43,12 +48,40 @@ public class WindowService : IWindowService
             viewModel.ContextEmployee = editEmployee;
         }
         window.DataContext = viewModel;
-        window.ShowDialog();
+
+        bool dialogResult = (bool)window.ShowDialog();
+
+        return dialogResult;
     }
-    public void ShowAddOrderWindow()
+    
+    public bool ShowAddOrderWindow(OrderModel editOrder = null)
     {
         var window = host.Services.GetRequiredService<AddOrderWindow>();
-        window.DataContext = host.Services.GetRequiredService<AddOrderWindowViewModel>();
+        var viewModel = host.Services.GetRequiredService<AddOrderWindowViewModel>();
+        if (editOrder != null)
+        {
+            viewModel.ContextOrder = editOrder;
+        }
+        window.DataContext = viewModel;
+
+        bool dialogResult = (bool)window.ShowDialog();
+
+        return dialogResult;
+    }
+
+    public void ShowDepartmentDetailsWindow(DepartmentModel department)
+    {
+        var window = host.Services.GetRequiredService<DepartmentDetailsWindow>();
+        var viewModel = host.Services.GetRequiredService<DepartmentDetailsWindowViewModel>();
+        viewModel.ContextDepartment = department;
+        window.DataContext = viewModel;
+        window.ShowDialog();
+    }
+
+    public void ShowEmployeeDetailsWindow(EmployeeModel employee)
+    {
+        var window = host.Services.GetRequiredService<EmployeeDetailsWindow>();
+        window.DataContext = employee;
         window.ShowDialog();
     }
 }

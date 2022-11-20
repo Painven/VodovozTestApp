@@ -3,10 +3,64 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VodovozTestApp.Views.NewFolder"
-        mc:Ignorable="d"
+        xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+        xmlns:beh="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:vm="clr-namespace:VodovozTestApp.ViewModels" 
+        mc:Ignorable="d" 
+        d:DataContext="{d:DesignInstance Type=vm:DepartmentDetailsWindowViewModel, IsDesignTimeCreatable=False}"
         Title="Детали" Height="450" Width="800">
-    <Grid>
-        
+    
+    <beh:Interaction.Triggers>
+        <beh:EventTrigger EventName="Loaded">
+            <beh:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </beh:EventTrigger>
+    </beh:Interaction.Triggers>
+    
+    <Grid DataContext="{Binding ContextDepartment}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <TextBlock Text="Название отдела" HorizontalAlignment="Center" Style="{StaticResource AddFormTextBlockStyle}" />
+            <TextBlock Text="{Binding Name, FallbackValue=Отдел}" 
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource SectionTextBoxStyle}"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBlock Text="Руководитель отдела" HorizontalAlignment="Center" Style="{StaticResource AddFormTextBlockStyle}" />
+            <TextBlock Text="{Binding Leader.FullDisplayName, FallbackValue=Фамилия Имя Отчество}" 
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource SectionTextBoxStyle}"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="2 20 2 2">
+            <TextBlock Text="Работники отдела" 
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource SectionTextBoxStyle}"></TextBlock>
+        </StackPanel>
+        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                  ItemsSource="{Binding Employees}"
+                  IsReadOnly="True" 
+                  AutoGenerateColumns="False"
+                  VerticalGridLinesBrush="Transparent"
+                  HorizontalGridLinesBrush="LightGray"
+                  CanUserAddRows="False" 
+                  CanUserDeleteRows="False" 
+                  CanUserReorderColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="*"/>
+                <DataGridTextColumn Header="День рождения" Binding="{Binding DateOfBirth, StringFormat={}dd.MM.yyyy}"/>
+                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}"/>
+                <DataGridTextColumn Header="Пол" Binding="{Binding Sex, Converter={StaticResource EnumToDescriptionAttributeConverter}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

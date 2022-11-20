@@ -11,6 +11,7 @@ public interface IDepartmentRepository
     Task<List<Department>> GetAll();
     Task AddOrUpdate(Department department);
     Task Delete(int departmentId);
+    Task<Department> GetById(int department_id);
 }
 
 public class DepartmentRepository : IDepartmentRepository
@@ -39,32 +40,24 @@ public class DepartmentRepository : IDepartmentRepository
 
     public async Task<List<Department>> GetAll()
     {
-        string sql = @"SELECT d.department_id, d.name, d.lead_id, e.employee_id
-                       FROM department d
-                       LEFT JOIN employee e ON (d.department_id = e.department_id)";
+        string sql = @"SELECT * FROM department d";
 
-        using var connection = await database.GetConnection();
-
-        var departmentDictionary = new Dictionary<int, Department>();
-
-        var departments = (await connection.QueryAsync<Department, Employee, Department>(sql, (department, employee) =>
-        {
-            Department departmentEntry;
-
-            if (!departmentDictionary.TryGetValue(department.department_id, out departmentEntry))
-            {
-                departmentEntry = department;
-                departmentEntry.Employees = new List<Employee>();
-                departmentDictionary.Add(departmentEntry.department_id, departmentEntry);
-            }
-
-            departmentEntry.Employees.Add(employee);
-            return departmentEntry;
-        },
-            splitOn: "employee_id"))
-        .Distinct()
-        .ToList();
+        var departments = await database.GetList<Department>(sql);
 
         return departments;
+    }
+
+    public async Task<Department> GetById(int department_id)
+    {
+        const string departmentSql = @"SELECT * FROM department WHERE department_id = @department_id";
+        Department department = await database.GetSingle<Department>(departmentSql, new { department_id });
+
+        string leaderSql = "SELECT * FROM employee WHERE employee_id = @employee_id";
+        department.Leader = await database.GetSingle<Employee>(leaderSql, new { employee_id = department.lead_id});
+
+        string employeeSql = "SELECT * FROM employee WHERE department_id = @department_id";
+        department.Employees = await database.GetList<Employee>(employeeSql, new { department_id });
+
+        return department;
     }
 }

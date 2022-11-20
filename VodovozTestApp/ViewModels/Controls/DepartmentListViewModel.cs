@@ -40,10 +40,10 @@ public class DepartmentsListViewModel : ViewModelBase
 
     public DepartmentsListViewModel()
     {
-        LoadedCommand = new LambdaCommand(async e => await LoadDepartments(null));
-        AddNewDepartmentCommand = new LambdaCommand(e => windowService.ShowAddDepartmentWindow());
+        LoadedCommand = new LambdaCommand(async e => await LoadDepartments());
+        AddNewDepartmentCommand = new LambdaCommand(async e => await AddNewDepartment());
     }
-    
+
     public DepartmentsListViewModel(IDepartmentRepository departmentRepository, 
         IMapper mapper, 
         IWindowService windowService,
@@ -55,7 +55,15 @@ public class DepartmentsListViewModel : ViewModelBase
         this.dialogService = dialogService;
     }
 
-    private async Task LoadDepartments(object obj)
+    private async Task AddNewDepartment()
+    {
+        if (windowService.ShowAddDepartmentWindow())
+        {
+            await LoadDepartments();
+        }
+    }
+
+    private async Task LoadDepartments()
     {
         Departments.Clear();
         IsLoadingInProgress = true;
@@ -73,7 +81,7 @@ public class DepartmentsListViewModel : ViewModelBase
                 }
             };
             department.OnEditClicked += (e) => windowService.ShowAddDepartmentWindow(e);
-            department.OnShowDetailsClicked += (e) => System.Windows.MessageBox.Show($"OnShowDetailsClicked {e.Name}");
+            department.OnShowDetailsClicked += (e) => windowService.ShowDepartmentDetailsWindow(e);
             Departments.Add(department);
         }
 

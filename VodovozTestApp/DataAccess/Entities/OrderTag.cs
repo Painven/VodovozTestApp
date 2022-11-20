@@ -5,7 +5,7 @@ namespace VodovozTestApp.DataAccess;
 public class OrderTag
 {
     [Key]
-    public int OrderTagId { get; set; }
+    public int tag_id { get; set; }
     [Required]
-    public string Name { get; set; }
+    public string name { get; set; }
 }

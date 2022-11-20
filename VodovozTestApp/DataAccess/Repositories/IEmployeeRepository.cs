@@ -25,14 +25,14 @@ public class EmployeeRepository : IEmployeeRepository
     public async Task AddOrUpdate(Employee employee)
     {
         string sql = @"INSERT INTO employee (employee_id, department_id, first_name, last_name, middle_name, sex, date_of_birth) 
-            VALUES(@employee_id, @department_id, @first_name, @last_name, @middle_name, @sex, @date_of_birth) 
-            ON DUPLICATE KEY UPDATE 
-                department_id = VALUES(department_id),
-                first_name = VALUES(first_name),
-                last_name = VALUES(last_name),
-                middle_name = VALUES(middle_name),
-                sex = VALUES(sex),
-                date_of_birth = VALUES(date_of_birth)";
+                                      VALUES(@employee_id, @department_id, @first_name, @last_name, @middle_name, @sex, @date_of_birth) 
+                        ON DUPLICATE KEY UPDATE 
+                            department_id = VALUES(department_id),
+                            first_name = VALUES(first_name),
+                            last_name = VALUES(last_name),
+                            middle_name = VALUES(middle_name),
+                            sex = VALUES(sex),
+                            date_of_birth = VALUES(date_of_birth)";
 
         await database.Execute(sql, employee);
     }
@@ -47,7 +47,8 @@ public class EmployeeRepository : IEmployeeRepository
     {
         string sql = @"SELECT e.first_name, e.last_name, e.middle_name, e.employee_id, e.date_of_birth, e.sex, d.department_id, d.name
                       FROM employee e
-                      LEFT JOIN department d ON (e.department_id = d.department_id)";
+                      LEFT JOIN department d ON (e.department_id = d.department_id)
+                      ORDER BY e.last_name, e.first_name";
 
         using var connection = await database.GetConnection();
 

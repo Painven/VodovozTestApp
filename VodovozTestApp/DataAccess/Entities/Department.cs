@@ -12,5 +12,6 @@ public class Department
     [Required]
     public string name { get; set; }
 
+    public Employee Leader { get; set; }
     public ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }

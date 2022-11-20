@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using VodovozTestApp.DataAccess;
 using VodovozTestApp.Infrastructure.Commands;
@@ -19,17 +22,17 @@ public class OrdersListViewModel : ViewModelBase
    
     public ObservableCollection<OrderModel> Orders { get; set; } = new()
     {
-        new OrderModel() { ProductName = "Товар в заказе 1" },
-        new OrderModel() { ProductName = "Товар в заказе 2" },
-        new OrderModel() { ProductName = "Товар в заказе 3" },
-        new OrderModel() { ProductName = "Товар в заказе 4" },
-        new OrderModel() { ProductName = "Товар в заказе 5" },
+        new OrderModel() { ProductName = "Товар в заказе 1", OrderID = 1 },
+        new OrderModel() { ProductName = "Товар в заказе 2", OrderID = 2 },
+        new OrderModel() { ProductName = "Товар в заказе 3", OrderID = 3 },
+        new OrderModel() { ProductName = "Товар в заказе 4", OrderID = 4 },
+        new OrderModel() { ProductName = "Товар в заказе 5", OrderID = 5 },
     };
 
     public OrdersListViewModel()
     {
-        LoadedCommand = new LambdaCommand(LoadOrders);
-        AddNewOrderCommand = new LambdaCommand(e => windowService.ShowAddOrderWindow());
+        LoadedCommand = new LambdaCommand(async e => await LoadOrders());
+        AddNewOrderCommand = new LambdaCommand(async e => await AddOrder());
     }
 
     public OrdersListViewModel(IOrderRepository orderRepository, 
@@ -41,15 +44,25 @@ public class OrdersListViewModel : ViewModelBase
         this.windowService = windowService;
     }
 
-    private async void LoadOrders(object obj)
+    private async Task LoadOrders()
     {
-        /*Orders.Clear();
+        Orders.Clear();
 
-        var orders = await orderRepository.GetAll();
-        orders.ForEach(o =>
+        var orders = mapper.Map<List<OrderModel>>(await orderRepository.GetAll());
+
+        foreach (var order in orders)
         {
-            Orders.Add(mapper.Map<OrderModel>(o));
-        });*/
+            order.OnShowDetailsClicked += (e) => windowService.ShowAddOrderWindow(e);
+            Orders.Add(order);
+        }
+    }
+
+    private async Task AddOrder()
+    {
+        if (windowService.ShowAddOrderWindow())
+        {
+            await LoadOrders();
+        }
     }
 }
 

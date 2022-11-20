@@ -19,25 +19,33 @@
         </beh:EventTrigger>
     </beh:Interaction.Triggers>
     
-    <Grid Margin="2">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <!-- Главное меню-->
-        <Border Grid.Row="0"  Style="{StaticResource MainSectionBorder}">
+        <Border Grid.Row="0" Style="{StaticResource MainSectionBorder}" Margin="2 0 2 2" CornerRadius="0 0 4 4">
             <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                <Button Command="{Binding ToolExampleCommand}" 
+                        ToolTip="Кнопка для демонстрации (пустая)"
+                        Style="{StaticResource ToolButtonStyle}">
                     <i:PackIconFontAwesome Kind="WaterSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
-                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                <Button Command="{Binding ToolExampleCommand}" 
+                        ToolTip="Кнопка для демонстрации (пустая)"
+                        Style="{StaticResource ToolButtonStyle}">
                     <i:PackIconFontAwesome Kind="AirFreshenerSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
-                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                <Button Command="{Binding ToolExampleCommand}" 
+                        ToolTip="Кнопка для демонстрации (пустая)"
+                        Style="{StaticResource ToolButtonStyle}">
                     <i:PackIconFontAwesome Kind="HandHoldingWaterSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
-                <Button Command="{Binding ToolExampleCommand}" Style="{StaticResource ToolButtonStyle}">
+                <Button Command="{Binding ToolExampleCommand}" 
+                        ToolTip="Кнопка для демонстрации (пустая)"
+                        Style="{StaticResource ToolButtonStyle}">
                     <i:PackIconFontAwesome Kind="CogsSolid" Style="{StaticResource SmallIconSize}"/>
                 </Button>
             </StackPanel>
@@ -46,9 +54,9 @@
         <!-- Основные секции -->
         <Grid  Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Раздел подразделений -->

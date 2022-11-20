@@ -62,12 +62,16 @@ public static class ConfigureServicesExtensions
         services.AddSingleton<IWindowService, WindowService>();
         services.AddSingleton<IDialogService, MessageBoxDialogService>();
 
+        services.AddTransient<EmployeeDetailsWindow>();
+        services.AddTransient<DepartmentDetailsWindow>();
+
         services.AddSingleton<DepartmentsListViewModel>();
         services.AddSingleton<EmployeesListViewModel>();
         services.AddSingleton<OrdersListViewModel>();
 
         services.AddTransient<AddDepartmentWindow>();
         services.AddTransient<AddDepartmentWindowViewModel>();
+        services.AddTransient<DepartmentDetailsWindowViewModel>();
 
         services.AddTransient<AddEmployeeWindow>();
         services.AddTransient<AddEmployeeWindowViewModel>();

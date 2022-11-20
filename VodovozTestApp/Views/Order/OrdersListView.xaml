@@ -47,7 +47,7 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding OrderID, StringFormat='{}Заказ №{0}'}" 
+                                <TextBlock Text="{Binding OrderID, StringFormat={}Заказ № {0}}" 
                                            Foreground="Navy"
                                            FontWeight="Bold"
                                            Margin="0 0 8 0"></TextBlock>
@@ -55,7 +55,7 @@
                             </StackPanel>
 
                             <Button Grid.Column="2" 
-                                    Command="{Binding DeleteCommand}" 
+                                    Command="{Binding ShowDetailsWindowCommand}" 
                                     Style="{StaticResource InlineActionButtonStyle}">
                                 <i:PackIconFontAwesome Kind="EyeSolid" Style="{StaticResource ExtraSmallIconSize}" />
                             </Button>

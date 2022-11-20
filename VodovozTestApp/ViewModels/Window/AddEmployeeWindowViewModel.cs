@@ -88,10 +88,8 @@ public class AddEmployeeWindowViewModel : ViewModelBase
     private async Task Loaded()
     {
         var departments = mapper.Map<IEnumerable<DepartmentModel>>(await departmentRepository.GetAll());
-        foreach (var dep in departments)
-        {
-            Departments.Add(dep);
-        }
+        Departments.ClearAndAddRange(departments);
+
         if (ContextEmployee.Department != null)
         {
             ContextEmployee.Department = Departments.Single(d => d.DepartmentID == ContextEmployee.Department.DepartmentID);

@@ -6,7 +6,10 @@ namespace VodovozTestApp.DataAccess;
 public class Order
 {
     [Key]
-    public int OrderID { get; set; }
-    public string ProductName { get; set; }
-    public List<string> Tags { get; set; } = new();
+    public int order_id { get; set; }
+    public int? employee_id { get; set; }
+    public string product_name { get; set; }
+
+    public ICollection<OrderTag> Tags { get; set; } = new List<OrderTag>();
+    public Employee Manager { get; set; }
 }

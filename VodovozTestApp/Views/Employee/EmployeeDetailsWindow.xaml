@@ -3,10 +3,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VodovozTestApp.Views"
+        xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:vm="clr-namespace:VodovozTestApp.Models"
+        Background="{StaticResource MainWindowBackgroundTexture}"
         mc:Ignorable="d"
-        Title="EmployeeDetailsWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        d:DataContext="{d:DesignInstance Type=vm:EmployeeModel, IsDesignTimeCreatable=True}"
+        Title="Информация" Height="344" Width="506">
+    <Border Style="{StaticResource MainSectionBorder}" Margin="25 15">
+        <StackPanel HorizontalAlignment="Center">
+
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Foreground" Value="Red"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="ФИО" />
+            <TextBlock Text="{Binding LastName, FallbackValue=Фамилия}" Style="{StaticResource SectionTextBoxStyle}" />
+            <TextBlock Text="{Binding FirstName, FallbackValue=Имя}"  Style="{StaticResource SectionTextBoxStyle}" />
+            <TextBlock Text="{Binding MiddleName, FallbackValue=Отвечство}" Style="{StaticResource SectionTextBoxStyle}" />
+            <Label Content="Отдел" />
+            <TextBlock Text="{Binding Department.Name, FallbackValue=Отдел}" Style="{StaticResource SectionTextBoxStyle}" />
+            <Label Content="День рождения" />
+            <TextBlock Text="{Binding DateOfBirth, StringFormat={}dd.MM.yyyy, FallbackValue='01.01.2000'}" Style="{StaticResource SectionTextBoxStyle}" />
+        </StackPanel>
+    </Border>
+
 </Window>

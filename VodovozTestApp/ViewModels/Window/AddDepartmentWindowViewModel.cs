@@ -78,10 +78,7 @@ public class AddDepartmentWindowViewModel : ViewModelBase
     private async Task Load()
     {
         var employees = mapper.Map<IEnumerable<EmployeeModel>>(await employeeRepository.GetAll());
-        foreach(var emp in employees)
-        {
-            Employees.Add(emp);
-        }
+        Employees.ClearAndAddRange(employees);
 
         if(ContextDepartment.Leader == null && ContextDepartment.LeadID.HasValue)
         {

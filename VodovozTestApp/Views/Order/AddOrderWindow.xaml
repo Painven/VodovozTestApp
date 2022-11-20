@@ -3,11 +3,65 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VodovozTestApp.Views"
-        mc:Ignorable="d"
+        xmlns:vm="clr-namespace:VodovozTestApp.ViewModels"
+        xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:beh="http://schemas.microsoft.com/xaml/behaviors"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="Создание заказа" Height="450" Width="800">
-    <Grid>
-        <TextBlock Style="{StaticResource SectionTextBoxStyle}">Создание заказа</TextBlock>
-    </Grid>
+        Background="{StaticResource MainWindowBackgroundTexture}"
+        x:Name="window"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:AddOrderWindowViewModel, IsDesignTimeCreatable=True}"
+        Height="400" Width="500">
+    <beh:Interaction.Triggers>
+        <beh:EventTrigger EventName="Loaded">
+            <beh:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </beh:EventTrigger>
+    </beh:Interaction.Triggers>
+
+    <Border Style="{StaticResource MainSectionBorder}">
+        <StackPanel Margin="20 10">
+
+            <TextBlock Text="{Binding Title}" 
+                       HorizontalAlignment="Center"
+                       Grid.Row="0" 
+                       Style="{StaticResource SectionTextBoxStyle}" />
+
+            <TextBlock Text="Товар" 
+                       HorizontalAlignment="Left"
+                       Style="{StaticResource AddFormTextBlockStyle}"/>
+            <TextBox Text="{Binding ContextOrder.ProductName, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource AddFormTextBoxStyle}"/>
+
+            <TextBlock Text="Менеджер заказа" 
+                       HorizontalAlignment="Left"
+                       Style="{StaticResource AddFormTextBlockStyle}"/>
+            <ComboBox ItemsSource="{Binding Employees}" SelectedValue="{Binding ContextOrder.Manager}" DisplayMemberPath="FullDisplayName"/>
+            
+
+            <TextBlock Text="Тэги заказа" HorizontalAlignment="Left" Style="{StaticResource AddFormTextBlockStyle}"/>
+            <ItemsControl ItemsSource="{Binding Tags}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Name}" 
+                                  Background="Transparent"
+                                  Margin="2 2 2 6"
+                                  IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+            <Button Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding ElementName=window, Mode=OneWay}"
+                    Style="{StaticResource SaveButtonStyle}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <i:PackIconFontAwesome Kind="CheckSolid" Style="{StaticResource LargeIconSize}" />
+                    <TextBlock Text="{Binding ButtonActionText}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Border>
+
 </Window>

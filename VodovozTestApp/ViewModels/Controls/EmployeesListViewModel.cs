@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using VodovozTestApp.DataAccess;
 using VodovozTestApp.Infrastructure.Commands;
@@ -33,8 +35,8 @@ public class EmployeesListViewModel : ViewModelBase
 
     public EmployeesListViewModel()
     {
-        LoadedCommand = new LambdaCommand(LoadEmployees);
-        AddNewEmployeeCommand = new LambdaCommand(e => windowService.ShowAddEmployeeWindow());
+        LoadedCommand = new LambdaCommand(async t => await LoadEmployees());
+        AddNewEmployeeCommand = new LambdaCommand(async t => await AddNewEmployee());
     }
 
     public EmployeesListViewModel(IEmployeeRepository employeeRepository, 
@@ -50,7 +52,15 @@ public class EmployeesListViewModel : ViewModelBase
         this.dialogService = dialogService;
     }
 
-    private async void LoadEmployees(object obj)
+    private async Task AddNewEmployee()
+    {
+        if (windowService.ShowAddEmployeeWindow())
+        {
+            await LoadEmployees();
+        }
+    }
+
+    private async Task LoadEmployees()
     {
         Employees.Clear();
 
@@ -67,7 +77,7 @@ public class EmployeesListViewModel : ViewModelBase
                 }
             };
             employee.OnEditClicked += (e) => windowService.ShowAddEmployeeWindow(e);
-            employee.OnShowDetailsClicked += (e) => System.Windows.MessageBox.Show($"OnShowDetailsClicked {e.EmployeeID}");
+            employee.OnShowDetailsClicked += (e) => windowService.ShowEmployeeDetailsWindow(e);
             Employees.Add(employee);
         }
     }

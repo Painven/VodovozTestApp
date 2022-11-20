@@ -63,7 +63,6 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Foreground="Navy" Text="{Binding Name}"></TextBlock>
-                                <TextBlock FontWeight="Bold" Text="{Binding Employees.Count, StringFormat={} ({0} чел.)}"/>
                             </StackPanel>
                             
                             
