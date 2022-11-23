@@ -1,3 +1,4 @@
-Тестовое CRUD приложение на знание основ по WPF
+## Тестовое CRUD приложение на знание основ по WPF
 
-WPF, MVVM, Commands, Binding, Style, Resources, ValueConverter, DI
+Разобраны базовые вещи WPF+MVVM
+Commands, Binding, Styles, ControlTemplate, Resources, ValueConverter, DI
