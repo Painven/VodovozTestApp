@@ -34,6 +34,12 @@ public partial class App : Application
 
     protected override async void OnStartup(StartupEventArgs e)
     {
+        bool hasConnection = await host.Services.GetRequiredService<IDapperDatabaseAccess>().CheckConnection();
+        if (!hasConnection)
+        {
+            MessageBox.Show("Нет соединения с базой данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
         var mainWindow = host.Services.GetRequiredService<MainWindow>();
         mainWindow.DataContext = host.Services.GetRequiredService<MainWindowViewModel>();
         mainWindow.Show();
@@ -51,7 +57,7 @@ public partial class App : Application
 public static class ConfigureServicesExtensions
 {
     public static void ConfigureDatabaseRepositories(this IServiceCollection services)
-    {       
+    {
         services.AddTransient<IDepartmentRepository, DepartmentRepository>();
         services.AddTransient<IEmployeeRepository, EmployeeRepository>();
         services.AddTransient<IOrderRepository, OrderRepository>();

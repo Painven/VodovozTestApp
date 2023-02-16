@@ -50,16 +50,25 @@ public class EmployeeRepository : IEmployeeRepository
                       LEFT JOIN department d ON (e.department_id = d.department_id)
                       ORDER BY e.last_name, e.first_name";
 
-        using var connection = await database.GetConnection();
-
-        var employees = (await connection.QueryAsync<Employee, Department, Employee>(sql, (employee, department) =>
+        try
         {
-            employee.Department = department;
-            return employee;
-        },
-        splitOn: "department_id"))
-        .ToList();
+            using var connection = await database.GetConnection();
 
-        return employees;
+            var employees = (await connection.QueryAsync<Employee, Department, Employee>(sql, (employee, department) =>
+            {
+                employee.Department = department;
+                return employee;
+            },
+            splitOn: "department_id"))
+            .ToList();
+
+            return employees;
+        }
+        catch
+        {
+
+        }
+
+        return Enumerable.Empty<Employee>().ToList();
     }
 }

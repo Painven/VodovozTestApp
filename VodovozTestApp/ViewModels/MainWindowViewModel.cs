@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using VodovozTestApp.Infrastructure.Commands;
 using VodovozTestApp.Services;
@@ -12,7 +13,7 @@ public class MainWindowViewModel : ViewModelBase
     public EmployeesListViewModel EmployeesData { get; } = new();
     public OrdersListViewModel OrdersData { get; } = new();
 
-    string title = "Тестовое приложение. Веселый Водовоз";
+    string title = "WPF Тестовое приложение с MVVM";
     public string Title
     {
         get => title;
@@ -23,10 +24,15 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        LoadedCommand = new LambdaCommand(e => Title += $" | Загружено в {DateTime.Now.ToLongTimeString()}");
+        LoadedCommand = new LambdaCommand(async (e) => await Loaded(e));
     }
 
-    public MainWindowViewModel(IWindowService windowService, 
+    private async Task Loaded(object obj)
+    {
+        Title += $" | Загружено в {DateTime.Now.ToLongTimeString()}";
+    }
+
+    public MainWindowViewModel(IWindowService windowService,
         DepartmentsListViewModel departments,
         EmployeesListViewModel employees,
         OrdersListViewModel orders) : this()

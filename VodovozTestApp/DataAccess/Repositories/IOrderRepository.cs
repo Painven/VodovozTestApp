@@ -45,7 +45,7 @@ public class OrderRepository : IOrderRepository
 
         const string deleteSql = "DELETE FROM `order_to_tag` WHERE order_id = @order_id";
         await database.Execute(deleteSql, new { order.order_id });
-        
+
         await InsertTagsForOrderIfNeed(order);
     }
 
@@ -69,30 +69,39 @@ public class OrderRepository : IOrderRepository
                         LEFT JOIN `order_tag` ot ON (ott.tag_id = ot.tag_id)
                         ORDER BY o.order_id DESC";
 
-        using var connection = await database.GetConnection();
-
-        var ordersDic = new Dictionary<int, Order>();
-
-        var orders = (await connection.QueryAsync<Order, OrderTag, Order>(sql, (order, tag) =>
+        try
         {
-            Order orderEntry;
+            using var connection = await database.GetConnection();
 
-            if (!ordersDic.TryGetValue(order.order_id, out orderEntry))
+            var ordersDic = new Dictionary<int, Order>();
+
+            var orders = (await connection.QueryAsync<Order, OrderTag, Order>(sql, (order, tag) =>
             {
-                orderEntry = order;
-                orderEntry.Tags = new List<OrderTag>();
-                ordersDic.Add(orderEntry.order_id, orderEntry);
-            }
-            if(tag != null)
-                orderEntry.Tags.Add(tag);
+                Order orderEntry;
 
-            return orderEntry;
-        },
-            splitOn: "tag_id"))
-        .Distinct()
-        .ToList();
+                if (!ordersDic.TryGetValue(order.order_id, out orderEntry))
+                {
+                    orderEntry = order;
+                    orderEntry.Tags = new List<OrderTag>();
+                    ordersDic.Add(orderEntry.order_id, orderEntry);
+                }
+                if (tag != null)
+                    orderEntry.Tags.Add(tag);
 
-        return orders;
+                return orderEntry;
+            },
+                splitOn: "tag_id"))
+            .Distinct()
+            .ToList();
+
+            return orders;
+        }
+        catch
+        {
+
+        }
+
+        return Enumerable.Empty<Order>().ToList();
     }
 
     public async Task<List<OrderTag>> GetTags()

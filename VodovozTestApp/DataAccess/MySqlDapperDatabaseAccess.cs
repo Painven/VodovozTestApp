@@ -16,6 +16,22 @@ public class MySqlDapperDatabaseAccess : IDapperDatabaseAccess
         this.connectionString = connectionString;
     }
 
+    public async Task<bool> CheckConnection()
+    {
+        using IDbConnection connection = new MySqlConnection(connectionString);
+        try
+        {
+            connection.Open();
+
+            return connection.State == ConnectionState.Open;
+        }
+        catch
+        {
+
+        }
+        return false;
+    }
+
     public async Task Execute(string sql, object parameters = null)
     {
         using IDbConnection connection = new MySqlConnection(connectionString);

@@ -11,4 +11,5 @@ public interface IDapperDatabaseAccess
     Task Execute(string sql, object parameters = null);
 
     Task<IDbConnection> GetConnection();
+    Task<bool> CheckConnection();
 }

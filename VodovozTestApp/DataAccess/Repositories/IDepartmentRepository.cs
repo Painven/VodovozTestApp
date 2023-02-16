@@ -24,7 +24,7 @@ public class DepartmentRepository : IDepartmentRepository
     }
 
     public async Task AddOrUpdate(Department department)
-    {        
+    {
         string sql = @"INSERT INTO department (department_id, name, lead_id) VALUES 
                                              (@department_id, @name, @lead_id) 
                        ON DUPLICATE KEY UPDATE name = VALUES(name), lead_id = VALUES(lead_id)";
@@ -41,10 +41,17 @@ public class DepartmentRepository : IDepartmentRepository
     public async Task<List<Department>> GetAll()
     {
         string sql = @"SELECT * FROM department d";
+        try
+        {
+            var departments = await database.GetList<Department>(sql);
 
-        var departments = await database.GetList<Department>(sql);
+            return departments;
+        }
+        catch
+        {
 
-        return departments;
+        }
+        return Enumerable.Empty<Department>().ToList();
     }
 
     public async Task<Department> GetById(int department_id)
@@ -53,7 +60,7 @@ public class DepartmentRepository : IDepartmentRepository
         Department department = await database.GetSingle<Department>(departmentSql, new { department_id });
 
         string leaderSql = "SELECT * FROM employee WHERE employee_id = @employee_id";
-        department.Leader = await database.GetSingle<Employee>(leaderSql, new { employee_id = department.lead_id});
+        department.Leader = await database.GetSingle<Employee>(leaderSql, new { employee_id = department.lead_id });
 
         string employeeSql = "SELECT * FROM employee WHERE department_id = @department_id";
         department.Employees = await database.GetList<Employee>(employeeSql, new { department_id });
